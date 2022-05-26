@@ -265,7 +265,7 @@ function Delete_Member(string $_id)
 }
 
 // 查詢所有文章標題
-function Query_All_Post_Titles()
+function Query_All_Items()
 {
     $AllTitles = array();
     $link = DB_Connect(); // 連線函式
@@ -481,77 +481,6 @@ function Add_New_Post(string $_title, string $_user_id, string $_message)
                 $AddResult = true;
         }
     } catch (Exception $e) {
-        echo 'Caught exception: ',  $e->getMessage(), "\n";
-    } finally {
-        mysqli_close($link);
-    }
-
-    return $AddResult; // $AddResult 變數回傳是否有成功回文
-}
-
-// 新增主題文章，使用「交易Transaction」的作法來對資料庫作存取
-function Add_New_Post_Trans(string $_title, string $_user_id, string $_message)
-{
-    $link = DB_Connect();
-    $AddResult = false;
-    $_post_id = "";
-    $tempResults = array(false, false); // 陣列變數tempResults用來記錄新增兩個資料表是否成功
-
-    mysqli_begin_transaction($link); // 開啟一個交易
-
-    try {
-        if ($link === false) {
-            die("發生錯誤無法連線，錯誤可能是：" . mysqli_connect_error());
-        } else {
-            // 新增文章標題
-            $sql = "INSERT INTO posts (user_id, title) VALUES (?, ?)";
-
-            if ($stmt = mysqli_prepare($link, $sql)) {
-                mysqli_stmt_bind_param($stmt, "ss", $param_user_id, $param_title);
-
-                $param_user_id = $_user_id;
-                $param_title = $_title;
-
-                if (mysqli_stmt_execute($stmt) == true) {
-                    $tempResults[0] = true; // 新增文章標題成功，先將陣列變數tempResults第一個資料改為true
-                }
-            }
-
-            // 取得最新的文章標題id，這要用來新增回文之用，記錄在回文資料表的post_id欄位，才能讓新增的文章與回文是連在一起的
-            $sql = "SELECT MAX(id) id FROM posts";
-
-            mysqli_query($link, 'SET NAMES utf8');
-
-            if ($result = mysqli_query($link, $sql)) {
-                $_post_id = mysqli_fetch_assoc($result)["id"];
-
-                mysqli_free_result($result);
-            }
-
-            // 新增回文
-            $sql = "INSERT INTO post_detail (post_id, user_id, message) VALUES (?, ?, ?)";
-
-            if ($stmt = mysqli_prepare($link, $sql)) {
-                mysqli_stmt_bind_param($stmt, "sss", $param_post_id, $param_user_id, $param_message);
-
-                $param_post_id = $_post_id;
-                $param_user_id = $_user_id;
-                $param_message = $_message;
-
-                if (mysqli_stmt_execute($stmt) == true) {
-                    $tempResults[1] = true; // 新增回文成功，將陣列變數tempResults第二個資料改為true
-                }
-            }
-
-            // 判斷陣列變數tempResults兩個值是否都是true，是的話才回傳成功的訊息
-            if ($tempResults[0] == true && $tempResults[1] == true ){
-                mysqli_commit($link); // 如果資料都成功新增，進行commit，才會真正的把資料寫進資料庫中
-                $AddResult = true;
-            }
-                
-        }
-    } catch (Exception $e) {
-        mysqli_rollback($link); // 如果有SQL語法無法正常執行，就rollback，取消資料庫資料的更動
         echo 'Caught exception: ',  $e->getMessage(), "\n";
     } finally {
         mysqli_close($link);

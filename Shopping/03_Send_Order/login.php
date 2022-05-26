@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>簡易討論板 登入</title>
+    <title>筆電小站會員登入</title>
 
     <script>
         // 結合JavaScript
@@ -24,7 +24,7 @@
     if (isset($_POST["Account"]) && isset($_POST["Password"])) {
         session_start();  // 啟用Session
 
-        require("functions.php"); // require() 引用別的PHP檔案
+        require("Member/functions.php"); // require() 引用別的PHP檔案
 
         $Account = $_POST["Account"];                                       // 使用者帳號
         $Password = $_POST["Password"];                                     // 密碼
@@ -47,7 +47,7 @@
 </head>
 
 <body>
-    <h1>簡易討論板</h1>
+    <h1>筆電小站會員登入</h1>
     <h2>您尚未登入，請輸入您的帳號密碼</h2>
     <hr>
     <form name="login" method="post" action="login.php">
