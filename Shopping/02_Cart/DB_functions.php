@@ -11,10 +11,10 @@ function DB_Connect()
     $dsn = "$dbms:host=$host;dbname=$dbName";
 
     try {
-        $link = new PDO($dsn, $user, $pass); // 建立資料庫連線
-        $link->exec('SET CHARACTER SET utf8mb4');
+        $pdo = new PDO($dsn, $user, $pass); // 建立資料庫連線
+        $pdo->exec('SET CHARACTER SET utf8mb4');
 
-        if ($link === false) {
+        if ($pdo === false) {
             die("發生錯誤無法連線");
             exit;
         }
@@ -22,21 +22,21 @@ function DB_Connect()
         echo 'Caught exception: ',  $e->getMessage(), "\n";
     }
 
-    return $link;
+    return $pdo;
 }
 
 // 查詢所有商品
 function Query_All_Items()
 {
     $AllItems = array();
-    $link = DB_Connect(); // 連線函式
+    $pdo = DB_Connect(); // 連線函式
 
     try {
-        if ($link === false) {
+        if ($pdo === false) {
             die("發生錯誤無法連線，錯誤可能是：" . mysqli_connect_error());
         } else {
             $sql = "SELECT id, name, price, image FROM items WHERE del = 0";
-            $statement = $link->query($sql); // 查詢Query的結果
+            $statement = $pdo->query($sql); // 查詢Query的結果
 
             // PDO::FETCH_ASSOC 能夠把查詢的結果，依照欄位來取值
             while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
@@ -57,15 +57,15 @@ function Query_All_Items()
 function Query_One_Item(string $_id)
 {
     $ItemDetails = array();
-    $link = DB_Connect(); // 連線函式
+    $pdo = DB_Connect(); // 連線函式
 
     try {
-        if ($link === false) {
+        if ($pdo === false) {
             die("發生錯誤無法連線");
         } else {
             $data = [$_id]; // 用一個簡單的陣列來綁定參數，有沒有比較簡單呢？
             $sql = "SELECT id, name, price, detail, image FROM items WHERE id = ? AND del = 0"; // 只會查出某個特定商品資料
-            $statement = $link->prepare($sql);
+            $statement = $pdo->prepare($sql);
 
             if ($statement->execute($data)) {
                 // PDO::FETCH_ASSOC 能夠把查詢的結果，依照欄位來取值

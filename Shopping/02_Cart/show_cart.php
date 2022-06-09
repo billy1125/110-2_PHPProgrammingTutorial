@@ -44,7 +44,7 @@ if (isset($_COOKIE["LoginOK"]) && $_COOKIE["LoginOK"] == "OK") {
                 <th>小計</th>
             </tr>
             <?php
-            $Total = 0;
+            $Total = 0; // 紀錄所有商品的總價
             if (isset($_COOKIE["CartItems"])) {
                 $CookieItems = $_COOKIE["CartItems"];
                 $temp = Query_All_Items(); // 取得所有商品資料
@@ -57,7 +57,7 @@ if (isset($_COOKIE["LoginOK"]) && $_COOKIE["LoginOK"] == "OK") {
                         echo "<td><a href='show_item.php?id={$row['id']}'>{$row['name']}</a></td>";
                         echo "<td>" . number_format($row['price']) . "</td>";
                         echo "<td>{$CookieItems[$row['id']]}</td>";
-                        $subtotal = (int)$CookieItems[$row['id']] * (int)$row['price'];
+                        $subtotal = (int)$CookieItems[$row['id']] * (int)$row['price']; // 計算這個商品的小計(數量乘價格)
                         $Total += $subtotal;
                         echo "<td>" . number_format($subtotal) . "</td>";
                         echo "</tr>";

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2022-05-26 15:12:56
--- 伺服器版本： 10.4.22-MariaDB
--- PHP 版本： 7.4.27
+-- 產生時間： 2022-06-09 13:58:43
+-- 伺服器版本： 10.4.24-MariaDB
+-- PHP 版本： 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- 資料庫: `shopping`
+-- 資料庫： `shopping`
 --
 
 -- --------------------------------------------------------
@@ -54,12 +54,12 @@ INSERT INTO `items` (`id`, `name`, `price`, `detail`, `image`, `kind`, `del`) VA
 
 CREATE TABLE `orders` (
   `id` int(5) NOT NULL,
-  `user_id` int(5) NOT NULL,
-  `name` varchar(20) NOT NULL,
-  `telephone` varchar(20) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `address` varchar(100) NOT NULL,
-  `datetime` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `user_id` int(5) NOT NULL COMMENT '資料表users的主鍵id',
+  `name` varchar(20) NOT NULL COMMENT '下單人姓名',
+  `telephone` varchar(20) NOT NULL COMMENT '下單人電話',
+  `email` varchar(50) NOT NULL COMMENT '下單人電子郵件',
+  `address` varchar(100) NOT NULL COMMENT '下單人地址',
+  `datetime` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '訂單日期時間'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -79,10 +79,10 @@ INSERT INTO `orders` (`id`, `user_id`, `name`, `telephone`, `email`, `address`, 
 
 CREATE TABLE `orders_detail` (
   `id` int(5) NOT NULL,
-  `order_id` int(5) NOT NULL,
-  `item_id` int(5) NOT NULL,
-  `numbers` int(2) NOT NULL,
-  `datetime` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `order_id` int(5) NOT NULL COMMENT 'orders的主鍵id',
+  `item_id` int(5) NOT NULL COMMENT 'items的主鍵id',
+  `numbers` int(2) NOT NULL COMMENT '訂單的商品數量',
+  `datetime` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '建立的日期時間'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -102,10 +102,10 @@ INSERT INTO `orders_detail` (`id`, `order_id`, `item_id`, `numbers`, `datetime`)
 
 CREATE TABLE `users` (
   `id` int(5) NOT NULL,
-  `account` varchar(10) NOT NULL,
-  `password` varchar(10) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `admin` varchar(1) NOT NULL
+  `account` varchar(10) NOT NULL COMMENT '帳號',
+  `password` varchar(10) NOT NULL COMMENT '密碼',
+  `name` varchar(50) NOT NULL COMMENT '會員姓名',
+  `admin` varchar(1) NOT NULL COMMENT '是不是管理員'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
