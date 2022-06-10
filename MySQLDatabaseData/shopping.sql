@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2022-06-09 13:58:43
+-- 產生時間： 2022-06-10 05:22:55
 -- 伺服器版本： 10.4.24-MariaDB
 -- PHP 版本： 7.4.29
 
@@ -69,7 +69,8 @@ CREATE TABLE `orders` (
 INSERT INTO `orders` (`id`, `user_id`, `name`, `telephone`, `email`, `address`, `datetime`) VALUES
 (4, 1, '車太炫', 'd', 'd', 'd', '2022-05-26 12:08:01'),
 (5, 1, '車太炫', 'd', 'd', 'd', '2022-05-26 12:08:43'),
-(6, 1, '車太炫', 'er', 'er', 'ee', '2022-05-26 12:13:09');
+(6, 1, '車太炫', 'er', 'er', 'ee', '2022-05-26 12:13:09'),
+(7, 6, '陳時鐘', 'tes', 'dds', 'dsdsd', '2022-06-10 03:04:55');
 
 -- --------------------------------------------------------
 
@@ -91,8 +92,10 @@ CREATE TABLE `orders_detail` (
 
 INSERT INTO `orders_detail` (`id`, `order_id`, `item_id`, `numbers`, `datetime`) VALUES
 (2, 4, 1, 1, '2022-05-26 12:08:01'),
-(3, 5, 1, 1, '2022-05-26 12:08:43'),
-(4, 6, 1, 1, '2022-05-26 12:13:09');
+(3, 5, 2, 30, '2022-06-10 03:02:13'),
+(4, 6, 3, 3, '2022-06-10 03:02:39'),
+(5, 6, 2, 2, '2022-06-10 03:02:39'),
+(6, 7, 1, 3, '2022-06-10 03:04:55');
 
 -- --------------------------------------------------------
 
@@ -159,13 +162,13 @@ ALTER TABLE `items`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `orders_detail`
 --
 ALTER TABLE `orders_detail`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `users`

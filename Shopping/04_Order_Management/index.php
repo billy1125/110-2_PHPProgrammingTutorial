@@ -12,9 +12,9 @@ if (isset($_COOKIE["LoginOK"]) && $_COOKIE["LoginOK"] == "OK") {
     if (isset($_SESSION["name"]))
         $UserName = $_SESSION["name"]; // 用來顯示使用者姓名
     if (isset($_SESSION["admin"]) && $_SESSION["admin"] == "Y") {
-        $MemeberLink = "<a href='Member/admin.php'>會員資料管理</a>"; // 如果使用者是管理員，顯示會員資料管理連結
+        $MemeberLink = "<a href='Member/admin.php'>會員資料管理</a> || <a href='order_manage.php'>訂單管理</a> "; // 如果使用者是管理員，顯示會員資料管理連結
     } else {
-        $MemeberLink = "<a href='Member/edit_member.php?id=" . $_SESSION["id"] . "'>會員資料管理</a>";
+        $MemeberLink = "<a href='Member/edit_member.php?id=" . $_SESSION["id"] . "'>會員資料管理</a> || <a href='order_manage.php?id=" . $_SESSION["id"] . "'>訂單管理</a> ";
     }
 }
 ?>
@@ -30,12 +30,11 @@ if (isset($_COOKIE["LoginOK"]) && $_COOKIE["LoginOK"] == "OK") {
 </head>
 
 <body>
-    <h1>線上購物 Ver 3.0</h1>
-    <p>新增訂單，並且將訂單資料存到資料庫裡</p>
+    <h1>線上購物 Ver 4.0</h1>
+    <p>訂單管理功能</p>
     <hr>
-    <p><?php echo $LoginLink ?> || <a href='cart.php'>購物車(<?php echo Count_Cart_Items() ?>)</a> || <?php echo $MemeberLink ?> </p>
+    <p><?php echo $LoginLink ?> || <a href='cart.php'>購物車(<?php echo Count_Cart_Items() ?>)</a> || <?php echo $MemeberLink ?></p>
     <h2><?php echo $UserName . " " ?>你好！以下是我們商店裡面所有的商品，歡迎你的選購！</h2>
-
     <table border="1" width='1000'>
         <tr>
             <th>商品編號</th>

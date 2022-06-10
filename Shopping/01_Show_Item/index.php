@@ -35,30 +35,27 @@ if (isset($_COOKIE["LoginOK"]) && $_COOKIE["LoginOK"] == "OK") {
     <hr>
     <p><?php echo $LoginLink ?> || <a href='cart.php'>購物車</a> || <?php echo $MemeberLink ?> </p>
     <h2><?php echo $UserName . " " ?>你好！以下是我們商店裡面所有的商品，歡迎你的選購！</h2>
-    <form name="login" method="post" action="login.php">
-        <table border="1" width='1000'>
-            <tr>
-                <th>商品編號</th>
-                <th>產品</th>
-                <th>價格</th>
-                <th>圖片</th>
-            </tr>
-            <?php
-            $temp = Query_All_Items(); // 取得所有商品資料
+    <table border="1" width='1000'>
+        <tr>
+            <th>商品編號</th>
+            <th>產品</th>
+            <th>價格</th>
+            <th>圖片</th>
+        </tr>
+        <?php
+        $temp = Query_All_Items(); // 取得所有商品資料
 
-            foreach ($temp as $row) { // 將所有商品的清單資料，依序讀取，然後製作成HTML表格
-                echo "<tr>";
-                echo "<td>{$row['id']}</td>";
-                echo "<td><a href='show_item.php?id={$row['id']}'>{$row['name']}</a></td>";
-                echo "<td>{$row['price']}</td>";
-                echo "<td><img src='Items/{$row['image']}' width='300'></td>";
-                echo "</tr>";
-            }
+        foreach ($temp as $row) { // 將所有商品的清單資料，依序讀取，然後製作成HTML表格
+            echo "<tr>";
+            echo "<td>{$row['id']}</td>";
+            echo "<td><a href='show_item.php?id={$row['id']}'>{$row['name']}</a></td>";
+            echo "<td>{$row['price']}</td>";
+            echo "<td><img src='Items/{$row['image']}' width='300'></td>";
+            echo "</tr>";
+        }
 
-            ?>
-        </table>
-    </form>
-
+        ?>
+    </table>
 </body>
 
 </html>
