@@ -41,7 +41,6 @@ if (isset($_COOKIE["LoginOK"]) && $_COOKIE["LoginOK"] == "OK") {
     <table border="1" width='1000'>
         <tr>
             <th>訂單編號</th>
-            <th>訂單細節</th>
             <th>下單人</th>
             <th>電話</th>
             <th>電子郵件</th>
@@ -53,7 +52,6 @@ if (isset($_COOKIE["LoginOK"]) && $_COOKIE["LoginOK"] == "OK") {
 
         foreach ($temp as $row) { // 將所有歷史訂單資料，依序讀取，然後製作成HTML表格
             echo "<tr>";
-            echo "<td>{$row['id']}</td>";
             echo "<td><a href='order_manage.php?orderid={$row['id']}'>訂單細節</a></td>";
             echo "<td>{$row['name']}</td>";
             echo "<td>{$row['telephone']}</td>";

@@ -1,5 +1,5 @@
 <?php
-require("functions.php");
+require_once("functions.php");
 
 if (isset($_GET["id"]))
     $student = Query_One_Student($_GET["id"]);

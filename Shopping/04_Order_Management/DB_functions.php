@@ -176,7 +176,7 @@ function Query_Orders_Detail(string $_order_id)
             die("發生錯誤無法連線");
         } else {
             $data = [$_order_id];
-            // 進階的SQL聯合查詢，使用代碼
+            // 進階的SQL聯合查詢，使用代碼與簡單的運算
             $sql = "SELECT b.name, a.numbers, b.price, b.price * a.numbers subtotal FROM orders_detail a, items b WHERE a.item_id = b.id AND a.order_id = ?";  
             $statement = $pdo->prepare($sql);
 

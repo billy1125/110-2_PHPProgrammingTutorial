@@ -1,5 +1,5 @@
 <?php
-require("functions.php");
+require_once("functions.php");
 $temp = Query_All_Students(); // 取得所有學生資料
 
 ?>

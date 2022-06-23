@@ -63,7 +63,7 @@ function Query_One_Item(string $_id)
         if ($pdo === false) {
             die("發生錯誤無法連線");
         } else {
-            $data = [$_id];
+            $data = [$_id]; // 用一個簡單的陣列來綁定參數，有沒有比較簡單呢？
             $sql = "SELECT id, name, price, detail, image FROM items WHERE id = ? AND del = 0"; // 只會查出某個特定商品資料
             $statement = $pdo->prepare($sql);
 
@@ -79,6 +79,60 @@ function Query_One_Item(string $_id)
     }
 
     return $ItemDetails;
+}
+
+// 編輯特定商品的細節資料
+function Edit_One_Item(string $_name, string $_price, string $_detail, string $_image, string $_id)
+{
+    $UpdateResults = false;
+    $pdo = DB_Connect(); // 連線函式
+
+    try {
+        if ($pdo === false) {
+            die("發生錯誤無法連線");
+        } else {
+            $data = [$_name, $_price, $_detail, $_image, $_id]; // 用一個簡單的陣列來綁定參數，有沒有比較簡單呢？
+            $sql = "UPDATE items SET name = ?, price = ?, detail = ?, image = ? WHERE id = ? AND del = 0"; // 只會查出某個特定商品資料
+            $statement = $pdo->prepare($sql);
+
+            if ($statement->execute($data)) {
+                $UpdateResults = true;
+            }
+        }
+    } catch (PDOException $e) {
+        echo 'Caught exception: ',  $e->getMessage(), "\n";
+    } finally {
+        unset($PDO);
+    }
+
+    return $UpdateResults;
+}
+
+// 編輯特定商品的細節資料
+function Add_One_Item(string $_name, string $_price, string $_detail, string $_image)
+{
+    $UpdateResults = false;
+    $pdo = DB_Connect(); // 連線函式
+
+    try {
+        if ($pdo === false) {
+            die("發生錯誤無法連線");
+        } else {
+            $data = [$_name, $_price, $_detail, $_image]; // 用一個簡單的陣列來綁定參數，有沒有比較簡單呢？
+            $sql = "INSERT INTO items (name, price, detail, image) VALUES (?, ?, ?, ?)"; // 只會查出某個特定商品資料
+            $statement = $pdo->prepare($sql);
+
+            if ($statement->execute($data)) {
+                $UpdateResults = true;
+            }
+        }
+    } catch (PDOException $e) {
+        echo 'Caught exception: ',  $e->getMessage(), "\n";
+    } finally {
+        unset($PDO);
+    }
+
+    return $UpdateResults;
 }
 
 // 新增訂單資料
@@ -133,4 +187,64 @@ function Count_Cart_Items()
         }
     }
     return $Total;
+}
+
+// 查詢訂單清單
+function Query_Orders(string $_user_id, string $_is_admin)
+{
+    $Orders = array();
+    $pdo = DB_Connect();
+
+    try {
+        if ($pdo === false) {
+            die("發生錯誤無法連線");
+        } else {
+            $data = [$_user_id];
+            // 判斷是不是管理員，如果是管理員則是查詢「全部的訂單」
+            $sql = ($_is_admin == "Y") ? "SELECT * FROM orders" : "SELECT * FROM orders WHERE user_id = ?";  
+            $statement = $pdo->prepare($sql);
+
+            if ($statement->execute($data)) {
+                while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+                    array_push($Orders, $row);
+                }
+            }
+        }
+    } catch (PDOException $e) {
+        echo 'Caught exception: ',  $e->getMessage(), "\n";
+    } finally {
+        unset($PDO);
+    }
+
+    return $Orders;
+}
+
+// 查詢訂單細項
+function Query_Orders_Detail(string $_order_id)
+{
+    $OrderDetail = array();
+    $pdo = DB_Connect();
+
+    try {
+        if ($pdo === false) {
+            die("發生錯誤無法連線");
+        } else {
+            $data = [$_order_id];
+            // 進階的SQL聯合查詢，使用代碼
+            $sql = "SELECT b.name, a.numbers, b.price, b.price * a.numbers subtotal FROM orders_detail a, items b WHERE a.item_id = b.id AND a.order_id = ?";  
+            $statement = $pdo->prepare($sql);
+
+            if ($statement->execute($data)) {
+                while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+                    array_push($OrderDetail, $row);
+                }
+            }
+        }
+    } catch (PDOException $e) {
+        echo 'Caught exception: ',  $e->getMessage(), "\n";
+    } finally {
+        unset($PDO);
+    }
+
+    return $OrderDetail;
 }
